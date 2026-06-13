@@ -158,6 +158,26 @@ fig5 = px.histogram(
 
 st.plotly_chart(fig5)
 
+
+#Correlation Heatmap
+st.subheader("📊 Feature Correlation Analysis")
+
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+numeric_df = df.select_dtypes(include=["int64","float64"])
+
+fig, ax = plt.subplots(figsize=(8,5))
+
+sns.heatmap(
+    numeric_df.corr(),
+    annot=True,
+    cmap="Blues",
+    ax=ax
+)
+
+st.pyplot(fig)
+
 #segment insights
 st.plotly_chart(fig3)
 
@@ -167,6 +187,11 @@ segment_summary = df.groupby("Segment").agg({
     "age": "mean",
     "satisfaction_score": "mean"
 }).round(2)
+
+segment_summary.columns = [
+    "Average Age",
+    "Average Satisfaction"
+]
 
 st.dataframe(
     segment_summary,
@@ -197,3 +222,9 @@ st.download_button(
 st.subheader("Dataset Preview")
 
 st.dataframe(df.head())
+
+st.markdown("---")
+
+st.caption(
+    "Built using Python, Streamlit, Plotly and K-Means Clustering | © Pooja Tarale"
+)
