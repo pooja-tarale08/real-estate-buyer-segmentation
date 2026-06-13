@@ -8,8 +8,23 @@ st.set_page_config(
 )
 
 df = pd.read_csv("data/clustered_clients.csv")
+segment_names = {
+    0: "Home Buyers",
+    1: "Investment Buyers",
+    2: "Loan Dependent Buyers",
+    3: "Experienced Buyers",
+    4: "Corporate Clients"
+}
 
-st.title("🏠 Real Estate Buyer Segmentation Dashboard")
+df["Buyer Segment"] = df["Segment"].map(segment_names)
+
+st.title("🏠 Real Estate Buyer Intelligence Dashboard")
+
+st.markdown("""
+### Machine Learning Based Buyer Segmentation & Investment Profiling
+
+Identify hidden buyer segments, investment patterns, financing behavior, and geographic trends using AI-driven clustering.
+""")
 
 col1, col2, col3, col4 = st.columns(4)
 
@@ -34,9 +49,21 @@ with col4:
         round(df["satisfaction_score"].mean(), 2)
     )
 
-st.write("Machine Learning Based Buyer Segmentation and Investment Profiling")
 
 # Sidebar Filters
+st.sidebar.title("🎛 Dashboard Controls")
+
+st.sidebar.info("""
+🏠 Real Estate Buyer Intelligence
+
+📊 Data Analytics & Machine Learning Project
+
+👩‍💻 Developed by Pooja Tarale
+
+🎯 Goal:
+Identify buyer segments and investment behavior patterns.
+""")
+
 st.sidebar.header("Filters")
 
 country = st.sidebar.selectbox(
@@ -141,7 +168,30 @@ segment_summary = df.groupby("Segment").agg({
     "satisfaction_score": "mean"
 }).round(2)
 
-st.dataframe(segment_summary)
+st.dataframe(
+    segment_summary,
+    use_container_width=True
+)
+
+st.subheader("🤖 AI Business Insights")
+
+st.success("""
+Corporate clients demonstrate strong purchasing capacity and can be targeted with premium real estate offerings.
+""")
+
+st.info("""
+Investment-oriented buyers represent a valuable segment for long-term investment campaigns and portfolio recommendations.
+""")
+
+st.warning("""
+Loan-dependent buyers may benefit from financing support programs and first-time buyer assistance.
+""")
+
+st.download_button(
+    "📥 Download Clustered Dataset",
+    df.to_csv(index=False),
+    file_name="clustered_clients.csv"
+)
 
 # Data Preview
 st.subheader("Dataset Preview")
