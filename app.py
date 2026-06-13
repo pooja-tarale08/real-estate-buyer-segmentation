@@ -127,6 +127,7 @@ fig3 = px.histogram(
     x="loan_applied",
     color="Segment"
 )
+st.plotly_chart(fig3)
 
 #Geographic Buyer Analysis
 st.subheader("Geographic Buyer Analysis")
@@ -179,8 +180,6 @@ sns.heatmap(
 st.pyplot(fig)
 
 #segment insights
-st.plotly_chart(fig3)
-
 st.subheader("Segment Insights")
 
 segment_summary = df.groupby("Segment").agg({
